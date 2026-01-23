@@ -21,14 +21,14 @@ const emit = defineEmits<{
       </div>
       <div class="flex justify-between text-gray-600">
         <span>Подытог:</span>
-        <span>${{ total.toFixed(2) }}</span>
+        <span>${{ Number(total).toFixed(2) }}</span>
       </div>
     </div>
 
     <div class="border-t pt-4 mb-6">
       <div class="flex justify-between text-lg font-bold">
         <span>Всего:</span>
-        <span class="text-primary-600">${{ total.toFixed(2) }}</span>
+        <span class="text-primary-600">${{ Number(total).toFixed(2) }}</span>
       </div>
     </div>
 

@@ -65,7 +65,7 @@ const viewDetails = () => {
 
     <div class="flex items-center justify-between pt-4 border-t">
       <span class="text-2xl font-bold text-primary-600">
-        ${{ product.price.toFixed(2) }}
+        ${{ Number(product.price).toFixed(2) }}
       </span>
       <button @click.stop="addToCart" class="btn btn-primary">В корзину</button>
     </div>

@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import { useAuthStore } from "@/stores/auth";
 import { useCartStore } from "@/stores/cart";
-import { useRouter } from "vue-router";
+import { useRouter, RouterLink } from "vue-router";
 
 const authStore = useAuthStore();
 const cartStore = useCartStore();
@@ -60,6 +60,8 @@ const handleLogout = async () => {
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
+              height="24"
+              width="24"
             >
               <path
                 stroke-linecap="round"

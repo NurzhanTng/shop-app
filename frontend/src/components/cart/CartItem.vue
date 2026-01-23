@@ -56,7 +56,9 @@ const removeItem = () => {
     <div class="flex-1 flex flex-col justify-between">
       <div>
         <h3 class="font-semibold text-gray-900">{{ item.name }}</h3>
-        <p class="text-sm text-gray-500">${{ item.price.toFixed(2) }} за шт.</p>
+        <p class="text-sm text-gray-500">
+          ${{ Number(item.price).toFixed(2) }} за шт.
+        </p>
       </div>
 
       <!-- Quantity Controls -->
@@ -96,7 +98,7 @@ const removeItem = () => {
       </button>
 
       <p class="text-lg font-bold text-primary-600">
-        ${{ (item.price * item.quantity).toFixed(2) }}
+        ${{ (Number(item.price) * Number(item.quantity)).toFixed(2) }}
       </p>
     </div>
   </div>

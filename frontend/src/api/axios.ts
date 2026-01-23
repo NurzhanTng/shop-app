@@ -10,6 +10,7 @@ const api: AxiosInstance = axios.create({
     "Content-Type": "application/json",
     Accept: "application/json",
   },
+  withCredentials: true, // ВАЖНО: для работы с cookies и CSRF
 });
 
 // Request interceptor - добавляем токен к каждому запросу

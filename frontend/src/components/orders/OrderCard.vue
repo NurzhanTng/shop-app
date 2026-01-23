@@ -44,7 +44,7 @@ const formatDate = (date: string | undefined) => {
           {{ item.product?.name || "Товар" }} × {{ item.quantity }}
         </span>
         <span class="text-gray-900 font-medium">
-          ${{ (item.price * item.quantity).toFixed(2) }}
+          ${{ (Number(item.price) * Number(item.quantity)).toFixed(2) }}
         </span>
       </div>
     </div>
@@ -52,7 +52,7 @@ const formatDate = (date: string | undefined) => {
     <div class="border-t pt-4 flex justify-between items-center">
       <span class="text-gray-700 font-medium">Итого:</span>
       <span class="text-xl font-bold text-primary-600">
-        ${{ order.total.toFixed(2) }}
+        ${{ Number(order.total).toFixed(2) }}
       </span>
     </div>
   </div>

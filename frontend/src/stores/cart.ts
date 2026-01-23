@@ -23,7 +23,7 @@ export const useCartStore = defineStore("cart", {
     },
 
     formattedTotal(): string {
-      return `$${this.total.toFixed(2)}`;
+      return `$${Number(this.total).toFixed(2)}`;
     },
   },
 
