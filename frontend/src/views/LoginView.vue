@@ -106,11 +106,9 @@ const handleSubmit = async () => {
           <p class="text-xs text-gray-600 mb-2 font-semibold">
             Тестовые данные:
           </p>
-          <p class="text-xs text-gray-600">
-            Admin: admin@example.com / password
-          </p>
-          <p class="text-xs text-gray-600">User: john@example.com / password</p>
-          <p class="text-xs text-gray-600">User: jane@example.com / password</p>
+          <p class="text-xs text-gray-600">Admin: admin@shop.com / password</p>
+          <p class="text-xs text-gray-600">User: user1@shop.com / password</p>
+          <p class="text-xs text-gray-600">User: user2@shop.com / password</p>
         </div>
       </div>
 

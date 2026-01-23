@@ -42,8 +42,7 @@ export interface Product {
   formatted_price?: string;
   category_id: number;
   category?: Category;
-  image_url?: string;
-  stock?: number;
+  image_url: string | null;
   created_at?: string;
   updated_at?: string;
 }
@@ -105,7 +104,7 @@ export interface CartItem {
   name: string;
   price: number;
   quantity: number;
-  image_url?: string;
+  image_url: string | null;
 }
 
 // Pagination types
