@@ -9,7 +9,6 @@ dist
 # Laravel
 /vendor
 .env
-.env.*
 /storage/*.key
 /storage/framework/*
 /storage/logs/*

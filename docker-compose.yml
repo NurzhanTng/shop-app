@@ -1,0 +1,112 @@
+version: "3.8"
+
+services:
+  # MySQL Database
+  db:
+    image: mysql:8.0
+    container_name: shop_db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: shop
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: shop_user
+      MYSQL_PASSWORD: shop_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - shop_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Laravel Backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: shop_backend
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./backend:/var/www
+      - ./backend/vendor:/var/www/vendor
+    ports:
+      - "8000:8000"
+    environment:
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: shop
+      DB_USERNAME: shop_user
+      DB_PASSWORD: shop_password
+      APP_KEY: base64:zH8R5B3tXjKlMnOpQrStUvWxYzAbCdEfGhIjKlMnOpQ=
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - shop_network
+    command: >
+      sh -c "
+        composer install &&
+        php artisan config:clear &&
+        php artisan cache:clear &&
+        php artisan key:generate --force &&
+        php artisan migrate:fresh --seed --force &&
+        php artisan serve --host=0.0.0.0 --port=8000
+      "
+
+  # Queue Worker
+  queue:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: shop_queue
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./backend:/var/www
+    environment:
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: shop
+      DB_USERNAME: shop_user
+      DB_PASSWORD: shop_password
+    depends_on:
+      - backend
+    networks:
+      - shop_network
+    command: php artisan queue:work --verbose --tries=3 --timeout=90
+
+  # Vue.js Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: shop_frontend
+    restart: unless-stopped
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_API_URL: http://localhost:8000/api
+    depends_on:
+      - backend
+    networks:
+      - shop_network
+    command: npm run dev -- --host
+
+networks:
+  shop_network:
+    driver: bridge
+
+volumes:
+  db_data:
+    driver: local
